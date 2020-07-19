@@ -1,12 +1,21 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Budget Viz</title>
-        <link rel="stylesheet" href="./style.css">
+        <title>Budget View</title>
+<!--        <link rel="stylesheet" href="./style.css">-->
     </head>
     <body>
         <h1>This is a test</h1>
+<!--        <script src="https://d3js.org/d3.v5.min.js"></script>-->
+        <script>let JSON = {"revenue":{},"expense":{}};</script>
+        <script src="https://d3js.org/d3.v5.min.js"></script>
+        <script src="./billboard.js"></script>
+        <link rel="stylesheet" href="./billboard.css">
+        <script src="script.js"></script>
+        <div id="chart"></div>
+        <select id="levels">
+            <option>Total</option>
+        </select>
         <svg></svg>
-        <script src="./viz.js"></script>
     </body>
 </html>

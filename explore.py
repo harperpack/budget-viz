@@ -2,7 +2,8 @@ import pandas as pd
 import numpy as np
 import json
 
-budget_data = "/Users/harper/Documents/harper_files/projects/budget_data/2019__2020__and_2021_Budget_Data.csv"
+#budget_data = "/Users/harper/Documents/harper_files/projects/budget_data/2019__2020__and_2021_Budget_Data.csv"
+budget_data = "/Users/harper/Documents/harper_files/projects/budget-viz/2019__2020__and_2021_Budget_Data.csv"
 
 bdf = pd.read_csv(budget_data)
 
@@ -262,20 +263,20 @@ class Budget:
 
     def classify(self, name):
         if name in [x.name for x in self.depts]:
-            return "department"
+            return "Department"
         elif name in [x.name for x in self.funds]:
-            return "fund"
+            return "Fund"
         elif name in [x.name for x in self.units]:
-            return "unit"
+            return "Unit"
         elif name in [x.name for x in self.accounts]:
-            return "account"
+            return "Account"
         elif name in [x.name for x in self.sub_accounts]:
-            return "sub_account"
+            return "Item"
         else:
             print("ERROR: cannot locate {n}".format(n=name))
 
     def output(self):
-        budget = {"revenue":{},"expense":{}}
+        budget = {"schema":["Department","Fund","Unit","Account","Item"],"revenue":{},"expense":{}}
         budget["revenue"][self.name] = {"type":"total","members":{"total":(self.revenue, self.ratio(self.revenue,self.revenue))}}
         budget["expense"][self.name] = {"type":"total","members":{"total":(self.expense, self.ratio(self.expense,self.expense))}}
         #print([x.name for x in self.depts if x.name in [y.name for y in self.funds]])
