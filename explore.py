@@ -277,8 +277,8 @@ class Budget:
 
     def output(self):
         budget = {"schema":["Department","Fund","Unit","Account","Item"],"revenue":{},"expense":{}}
-        budget["revenue"][self.name] = {"type":"total","members":{"total":(self.revenue, self.ratio(self.revenue,self.revenue))}}
-        budget["expense"][self.name] = {"type":"total","members":{"total":(self.expense, self.ratio(self.expense,self.expense))}}
+        budget["revenue"][self.name] = {"type":"Total","members":{"total":(self.revenue, self.ratio(self.revenue,self.revenue))}}
+        budget["expense"][self.name] = {"type":"Total","members":{"total":(self.expense, self.ratio(self.expense,self.expense))}}
         #print([x.name for x in self.depts if x.name in [y.name for y in self.funds]])
         # print([x.name for x in self.depts if x.name in [y.name for y in self.units]])
         # print([x.name for x in self.funds if x.name in [y.name for y in self.units]])

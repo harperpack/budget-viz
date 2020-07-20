@@ -27,8 +27,6 @@ let URL = "https://raw.githubusercontent.com/harperpack/budget-viz/master/budget
 
 //let LEVELS = {"names": ["total","department","unit","account","sub_account"],"pretty":{"total":"Total","department":"Department","unit":"Unit","account":"Account","sub_account":"Item"}};
 
-let SCHEMA = [];
-
 // let CURRENT_LEVEL = ["x","Dept6","Dept5","Dept4","Dept3","Dept2","Dept1"];
 
 let CURRENT_LEVEL = ["Dept1","Dept2","Dept3","Dept4","Dept5","Dept6"];
@@ -75,18 +73,43 @@ async function loadData(url) {
   // console.log(response.revenue.Evanston);
   // console.log(JSON);
   JSON = response;
-  updateLevel(LEVELS["names"][1]);
-  displayChart();
+  setSchema(JSON["schema"]);
+  // SCHEMA = JSON["schema"]
+  updateLevel(SCHEMA[0]);
 };
 
-
+function setSchema(schema) {
+  // console.log(schema);
+  select = document.getElementById('schema');
+  schema.forEach(
+    function(level) {
+      let option = document.createElement("option");
+      option.text = level;
+      select.add(option);
+      SCHEMA.push(level);
+    }
+  );
+  // for (let i = 0; i < schema.length; i++) {
+  //   console.log(schema[i]);
+  //   console.log('--');
+  //   let option = document.createElement("option");
+  //   option.text = schema[i];
+  //   select.add(option);
+  //   SCHEMA.push(schema[i]);
+  // }
+}
 
 function updateLevel(level) {
-  console.log("trumpet");
+  if (typeof level == 'undefined') {
+    let select = document.getElementById('schema');
+    level = select.options[select.selectedIndex].text;
+  }
+  console.log(level);
   // console.log(TYPE);
   // console.log(JSON);
   // console.log(JSON[TYPE]);
-  let cols = [["x"],[LEVELS["pretty"][level]]];
+  // console.log(level);
+  let cols = [["x"],[level]];
   let pairs = [];
   // console.log(cols);
   for (const entry in JSON[TYPE]) {
@@ -95,8 +118,11 @@ function updateLevel(level) {
       // console.log(cols);
       pairs.push([entry,JSON[TYPE][entry]["members"]["total"][0]]);
     }
+    else {
+      // console.log(JSON[TYPE][entry]["type"]);
+    }
   }
-  console.log(pairs);
+  //console.log(pairs);
   pairs.sort(
     function(a, b) {
       // console.log(x[1]);
@@ -112,7 +138,7 @@ function updateLevel(level) {
     }
   );
   // console.log(pairs);
-  console.log(pairs[0])
+  // console.log(pairs[0])
   pairs.forEach(
     function(pair) {
       cols[0].push(pair[0]);
@@ -125,38 +151,9 @@ function updateLevel(level) {
     //   // console.log(level);
     // }
   DATA["columns"] = cols;
+  displayChart();
   }
-  // console.log(cols);
-  // DATA["columns"] = cols;
-  // console.log(DATA["columns"]);
-  //console.log(JSON.TYPE.Evanston);
-// }
-//
-// function returnSelection(spec, level, source, format) {
-//   // let outputValues = [];
-//   // let outputLabels = [];
-//   let output = [];
-//   for (const name in json.spec) {
-//     if (json.spec.name.type == level) {
-//       for (const sourceName in json.spec.name.members) {
-//         if (sourceName == source) {
-//           let tuple = [json.spec.name.members.sourceName[format],sourceName];
-//           output.push(tuple);
-//           // outputValues.push(json.spec.name.members.sourceName[format]);
-//           // outputLabels.push(sourceName);
-//         }
-//       }
-//     }
-//   }
-//   return output;
-// };
-//
-// // function printEvanston() {
-// //   let data = loadData(url);
-// //   console.log(data.revenue.Evanston);
-// // }
-//
-// // printEvanston();
+
 loadData(URL);
 // // let data = loadData(url)
 // // console.log(data.revenue.Evanston);
@@ -166,38 +163,16 @@ loadData(URL);
 
 
 function displayChart() {
-  bb.generate({
-    "data": DATA,
-    "axis": X_AXIS,
-    "grid": GRID,
-    "bindto": CHART_ID
-  });
+  try {
+    bb.generate({
+      "data": DATA,
+      "axis": X_AXIS,
+      "grid": GRID,
+      "bindto": CHART_ID
+    });
+  }
+  catch (e) {
+    console.log(e);
+  }
   console.log("We built the chart.");
 }
-
-// let chart = bb.generate({
-//   data: {
-//     columns: [
-// 	["data1", -30, 200, 200, 400, -150, 250],
-// 	["data2", 130, 100, -100, 200, -150, 50],
-// 	["data3", -230, 200, 200, -300, 250, 250]
-//     ],
-//     type: "bar",
-//     groups: [
-//       [
-//         "data1",
-//         "data2"
-//       ]
-//     ]
-//   },
-//   grid: {
-//     y: {
-//       lines: [
-//         {
-//           value: 0
-//         }
-//       ]
-//     }
-//   },
-//   bindto: "#chart"
-// });

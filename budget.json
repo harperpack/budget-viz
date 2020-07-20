@@ -8,7 +8,7 @@
     ],
     "revenue": {
         "Evanston": {
-            "type": "total",
+            "type": "Total",
             "members": {
                 "total": [
                     318591151,
@@ -10154,7 +10154,7 @@
     },
     "expense": {
         "Evanston": {
-            "type": "total",
+            "type": "Total",
             "members": {
                 "total": [
                     314477794,
